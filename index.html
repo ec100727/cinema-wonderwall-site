@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cinema Wonderwall</title>
+  <style>
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Thin.ttf') format('truetype'); font-weight: 100; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-ExtraLight.ttf') format('truetype'); font-weight: 200; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Black.ttf') format('truetype'); font-weight: 900; font-style: normal; font-display: swap; }
+
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-ExtraLight.otf') format('opentype'); font-weight: 200; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Light.otf') format('opentype'); font-weight: 300; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-ExtraBold.otf') format('opentype'); font-weight: 800; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+
+    :root { --bg: #111111; --header: #FFFAEE; --text: #FFFFFF; --accent: #E3212A; --header-height: 80px; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); }
+    body { color: var(--text); font-family: 'Pretendard', sans-serif; }
+    button { color: inherit; font: inherit; }
+
+    .site-header { position: fixed; z-index: 10; top: 0; left: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; width: 100%; height: var(--header-height); padding: 0 60px; background: #000; }
+    .site-nav { display: flex; gap: clamp(48px, 16vw, 330px); }
+    .site-nav--right { justify-content: flex-end; }
+    .site-nav button, .booking-link { padding: 0; border: 0; background: none; color: var(--header); cursor: pointer; text-decoration: none; transition: opacity .25s ease; }
+    .site-nav button { font-family: 'Poppins', sans-serif; font-size: clamp(16px, 1.1vw, 23px); font-weight: 600; letter-spacing: -.04em; text-transform: lowercase; }
+    .site-nav button:hover, .booking-link:hover { opacity: .6; }
+    .brand { display: flex; align-items: center; justify-content: center; height: 52px; }
+    .brand img { display: block; width: clamp(145px, 9.2vw, 188px); max-height: 52px; }
+    .site-header.is-screening-intro .site-nav button:not(.nav-screening) { opacity: .5; }
+    .site-header.is-screening-intro .site-nav .nav-screening { opacity: 1; }
+
+    #home { position: relative; height: calc(100vh - var(--header-height)); min-height: 620px; margin-top: var(--header-height); overflow: hidden; }
+    .carousel { height: 100%; overflow: hidden; cursor: pointer; touch-action: pan-y; }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+    .carousel-track { display: flex; height: 100%; will-change: transform; transform: translate3d(0, 0, 0); }
+    .movie-slide { position: relative; flex: 0 0 100%; width: 100%; height: 100%; }
+    .movie-slide img { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; pointer-events: none; opacity: 1; transition: opacity 950ms cubic-bezier(.22, .61, .36, 1); }
+    .movie-slide.is-fade-start img { opacity: .94; transition: none; }
+    .movie-slide.is-fade-out img { opacity: .94; }
+    .movie-slide.is-fade-in img { opacity: 1; }
+    .carousel-pagination { position: absolute; z-index: 3; bottom: 38px; left: 50%; display: flex; gap: 10px; transform: translateX(-50%); }
+    .carousel-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: var(--header); cursor: pointer; opacity: .35; transition: opacity .25s ease, transform .25s ease; }
+    .carousel-dot:hover, .carousel-dot.is-active { opacity: 1; }
+    .carousel-dot.is-active { transform: scale(1.2); }
+    .movie-information { position: fixed; z-index: 2; left: 60px; bottom: 60px; font: 600 clamp(17px, 1.3vw, 27px)/1.42 'Poppins', sans-serif; letter-spacing: -.035em; }
+    .movie-information p { margin: 0; }
+    .movie-information .movie-title { margin-bottom: 1px; }
+    .movie-information .seats { color: var(--accent); }
+    .booking-link { position: fixed; z-index: 2; right: 60px; bottom: 60px; display: inline-flex; gap: 9px; align-items: center; font: 700 clamp(16px, 1.3vw, 26px)/1 'Pretendard', sans-serif; }
+    .booking-link .arrow { transition: transform .25s ease; }
+    .booking-link:hover .arrow { transform: translateX(5px); }
+
+    #screening-intro { margin-top: var(--header-height); background: var(--bg); }
+    .screening-section { position: relative; min-height: 100vh; overflow: hidden; }
+    .screening-background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .screening-tagline { position: absolute; z-index: 1; top: 40%; left: 50%; display: block; width: min(44vw, 560px); height: auto; transform: translate(-50%, -50%); }
+    .screening-intro-cta { position: absolute; z-index: 2; right: auto; bottom: 60px; left: 50%; transform: translateX(-50%); }
+    .screening-scroll-indicator { position: absolute; z-index: 2; bottom: calc(40px + var(--header-height)); left: 50%; padding: 8px; border: 0; background: transparent; color: var(--header); cursor: pointer; font: 600 28px/1 'Poppins', sans-serif; transform: translateX(-50%); animation: intro-scroll-float 2.4s cubic-bezier(.45, 0, .55, 1) infinite; }
+    .screening-scroll-indicator:hover { opacity: .6; }
+    @keyframes intro-scroll-float { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -8px); } }
+    .screening-description { position: absolute; z-index: 1; top: 47%; left: 50%; width: 1440px; max-width: 86vw; transform: translate(-50%, -50%); color: var(--text); text-align: center; }
+    .screening-description h2 { margin: 0 0 86px; font: 600 40px/1.2 'Pretendard', sans-serif; }
+    .screening-description p { margin: 0; font: 500 28px/1.65 'Pretendard', sans-serif; }
+    .screening-description .intro-english { font-family: 'Poppins', sans-serif; font-weight: 400; }
+    .screening-back { position: fixed; z-index: 11; top: calc(var(--header-height) + 28px); left: 32px; padding: 0; border: 0; background: transparent; color: var(--text); cursor: pointer; font: 400 30px/1 'Poppins', sans-serif; transition: opacity .25s ease; }
+    .screening-back:hover { opacity: .6; }
+
+    #app.quiz-screen { display: block; width: 100%; min-height: 100vh; margin: 0; padding-top: 360px; background: url('images/screening/backgrounds/screening_bg.png') center / cover no-repeat; color: var(--text); text-align: center; }
+    .question-content { animation: question-fade .5s cubic-bezier(.22, .61, .36, 1) both; }
+    .question-content h2 { margin: 0 0 106px; font: 600 60px/1.2 'Pretendard', sans-serif; letter-spacing: -.06em; }
+    .question-options { display: flex; justify-content: center; align-items: center; gap: 68px; }
+    .question-options--3 { gap: 68px; }
+    .option-button { display: flex !important; align-items: center; justify-content: center; width: 480px; min-height: 142px; margin: 0 !important; padding: 22px 38px !important; border: 1px solid rgba(255, 224, 224, .42) !important; border-radius: 999px; background: linear-gradient(115deg, rgba(87, 0, 4, .66), rgba(178, 6, 18, .48) 52%, rgba(48, 0, 2, .7)) !important; box-shadow: inset 0 1px 1px rgba(255, 255, 255, .12), 0 12px 30px rgba(0, 0, 0, .25); color: var(--text); cursor: pointer; font: 500 32px/1.35 'Pretendard', sans-serif !important; letter-spacing: -.055em; backdrop-filter: blur(13px); -webkit-backdrop-filter: blur(13px); transition: background .25s ease, border-color .25s ease, transform .25s ease; }
+    .option-button:hover { background: linear-gradient(115deg, rgba(119, 4, 9, .76), rgba(202, 19, 29, .58) 52%, rgba(72, 2, 6, .78)) !important; border-color: rgba(255, 235, 235, .68) !important; transform: translateY(-3px); }
+    @keyframes question-fade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+    #app { min-height: 100vh; display: flex; align-items: center; justify-content: center; width: min(90%, 600px); margin: auto; text-align: center; }
+    #app h1, #app h2 { color: var(--text); }
+    #app button { display: block; margin: 12px auto; padding: 10px 16px; border: 1px solid var(--text); background: transparent; cursor: pointer; }
+    #poster { width: 180px; margin: 20px auto; }
+    #poster img { display: block; width: 100%; height: auto; }
+    .is-hidden { display: none !important; }
+
+    @media (max-width: 700px) {
+      :root { --header-height: 64px; }
+      .site-header { padding: 0 20px; grid-template-columns: 1fr auto 1fr; }
+      .site-nav { gap: 14px; }
+      .site-nav button { font-size: 11px; }
+      .brand img { width: 104px; }
+      #home { min-height: 520px; }
+      .movie-information { left: 24px; bottom: 32px; }
+      .movie-information { font-size: 17px; }
+      .booking-link { right: 24px; bottom: 32px; font-size: 14px; }
+      .screening-section { min-height: 100vh; }
+      .screening-tagline { width: min(76vw, 430px); }
+      .screening-intro-cta { right: auto; bottom: 32px; }
+      .screening-scroll-indicator { bottom: calc(20px + var(--header-height)); font-size: 24px; }
+      .screening-back { top: calc(var(--header-height) + 16px); left: 20px; font-size: 26px; }
+      .carousel-pagination { bottom: 22px; gap: 8px; }
+      .carousel-dot { width: 7px; height: 7px; }
+      #app.quiz-screen { padding-top: 28vh; }
+      .question-content h2 { margin-bottom: 52px; font-size: 34px; }
+      .question-options, .question-options--3 { flex-wrap: wrap; gap: 16px; padding: 0 20px; }
+      .option-button { width: min(100%, 420px); min-height: 78px; font-size: 20px !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <nav class="site-nav" aria-label="주 메뉴">
+      <button type="button" class="nav-screening" data-screening>SCREENING</button>
+      <button type="button">ARCHIVE</button>
+    </nav>
+    <a class="brand" href="#home" aria-label="Cinema Wonderwall 홈"><img src="logo/wonderwall.svg" alt="Cinema Wonderwall"></a>
+    <nav class="site-nav site-nav--right" aria-label="보조 메뉴">
+      <button type="button">REVIEW</button>
+      <button type="button">ABOUT</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" aria-label="상영작">
+      <div class="carousel" id="movie-carousel" aria-label="상영작 캐러셀">
+        <div class="carousel-track" id="carousel-track"></div>
+      </div>
+      <div class="carousel-pagination" id="carousel-pagination" aria-label="상영작 선택"></div>
+      <div class="movie-information" aria-live="polite">
+        <p class="movie-title"><span id="movie-name"></span>, <span id="movie-year"></span></p>
+        <p id="movie-runtime"></p>
+        <p><span id="movie-seats"></span> / <span class="seats">40석</span></p>
+      </div>
+      <button type="button" class="booking-link" data-screening>예매하기 <span class="arrow" aria-hidden="true">→</span></button>
+    </section>
+    <section id="screening-intro" class="is-hidden" aria-label="Screening 소개">
+      <button type="button" class="screening-back" data-screening-back aria-label="이전 페이지로 돌아가기">←</button>
+      <section class="screening-section" aria-label="Screening 시작">
+        <img class="screening-background" src="images/screening/blind_screening_2.png" alt="영화관 스크린">
+        <img class="screening-tagline" src="typography/watch_first_think_later_typography.svg" alt="Watch First Think Later">
+        <button type="button" class="screening-scroll-indicator" data-scroll-next aria-label="다음 소개로 이동">↓</button>
+      </section>
+      <section class="screening-section" aria-label="Screening 소개">
+        <img class="screening-background" src="images/screening/blind_screening_1.png" alt="영화관 내부">
+        <div class="screening-description">
+          <h2>“ 제목 없이 시작되는 한 편의 영화 ”</h2>
+          <p>우리는 영화를 보기 전에 이미 많은 것을 알고 있습니다.<br>제목, 포스터, 줄거리. 때로는 그 정보만으로 영화를 선택하기도 합니다.<br><span class="intro-english">Watch First, Think Later</span> 는 그런 익숙한 방식에서 잠시 벗어나 보는 블라인드 상영입니다.<br>몇 가지 질문에 답하면 지금의 당신에게 가장 잘 어울리는 영화가 추천됩니다.<br>영화의 제목은 상영이 끝난 뒤에 공개됩니다. 그전까지는 어떤 영화인지 알 수 없습니다.<br><br>영화를 먼저 판단하기보다, 먼저 경험해 보세요.<br>질문을 시작하고, 지금의 당신에게 가장 잘 어울리는 영화를 만나보세요.</p>
+        </div>
+        <button type="button" class="booking-link screening-intro-cta" data-start-quiz>시작하기</button>
+      </section>
+    </section>
+    <section id="app" class="is-hidden"></section>
+  </main>
+
+  <script>
+    const homeMovies = [
+      { title: 'LOVE', year: '2015', runtime: '135min', seats: '25', image: 'images/love.jpg' },
+      { title: 'Past Lives', year: '2023', runtime: '105min', seats: '17', image: 'images/past lives.jpg' },
+      { title: 'Paris, Texas', year: '2015', runtime: '147min', seats: '30', image: 'images/paris, texas.jpg' },
+      { title: "I'm a Cyborg, but That's OK", year: '2006', runtime: '105min', seats: '37', image: "images/i'm a cyborg.jpg" },
+      { title: 'Mommy', year: '2014', runtime: '134min', seats: '38', image: 'images/mommy.jpg' }
+    ];
+
+    const home = document.querySelector('#home');
+    const screeningIntro = document.querySelector('#screening-intro');
+    const siteHeader = document.querySelector('#site-header');
+    const carousel = document.querySelector('#movie-carousel');
+    const carouselTrack = document.querySelector('#carousel-track');
+    const carouselPagination = document.querySelector('#carousel-pagination');
+    const movieName = document.querySelector('#movie-name');
+    const movieYear = document.querySelector('#movie-year');
+    const movieRuntime = document.querySelector('#movie-runtime');
+    const movieSeats = document.querySelector('#movie-seats');
+
+    const paginationDots = [];
+
+    function updateMovieInformation(index) {
+      const movie = homeMovies[index];
+      movieName.textContent = movie.title;
+      movieYear.textContent = movie.year;
+      movieRuntime.textContent = movie.runtime;
+      movieSeats.textContent = movie.seats;
+      paginationDots.forEach((dot, dotIndex) => {
+        const isActive = dotIndex === index;
+        dot.classList.toggle('is-active', isActive);
+        dot.setAttribute('aria-current', String(isActive));
+      });
+    }
+
+    const carouselMovies = [homeMovies[homeMovies.length - 1], ...homeMovies, homeMovies[0]];
+    const carouselSlides = [];
+    carouselMovies.forEach((movie) => {
+      const slide = document.createElement('article');
+      slide.className = 'movie-slide';
+      slide.innerHTML = `<img src="${movie.image}" alt="${movie.title} 영화 스틸">`;
+      carouselTrack.appendChild(slide);
+      carouselSlides.push(slide);
+    });
+    homeMovies.forEach((movie, index) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.className = 'carousel-dot';
+      dot.setAttribute('aria-label', `${movie.title} 슬라이드로 이동`);
+      dot.addEventListener('click', () => goToMovie(index));
+      carouselPagination.appendChild(dot);
+      paginationDots.push(dot);
+    });
+    updateMovieInformation(0);
+
+    let autoplayTimer;
+    let isHovering = false;
+    let isInteracting = false;
+    let isAnimating = false;
+    let activeSlide = 1;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let didDrag = false;
+
+    function currentSlideIndex() {
+      return activeSlide;
+    }
+
+    function logicalMovieIndex() {
+      return (activeSlide - 1 + homeMovies.length) % homeMovies.length;
+    }
+
+    function setTrackPosition(animate = false) {
+      carouselTrack.style.transition = animate
+        ? 'transform 1000ms cubic-bezier(.22, .61, .36, 1)'
+        : 'none';
+      carouselTrack.style.transform = `translate3d(${-activeSlide * carousel.clientWidth}px, 0, 0)`;
+    }
+
+    function normaliseLoopPosition() {
+      if (activeSlide === 0) activeSlide = homeMovies.length;
+      if (activeSlide === homeMovies.length + 1) activeSlide = 1;
+      setTrackPosition(false);
+    }
+
+    function animateTo(targetSlide) {
+      if (isAnimating) return;
+      const outgoingSlide = carouselSlides[activeSlide];
+      const incomingSlide = carouselSlides[targetSlide];
+      const shouldFade = targetSlide !== activeSlide;
+      if (shouldFade) {
+        incomingSlide.classList.add('is-fade-start');
+        void incomingSlide.offsetWidth;
+        outgoingSlide.classList.add('is-fade-out');
+      }
+      activeSlide = targetSlide;
+      isAnimating = true;
+      carousel.classList.add('is-animating');
+      updateMovieInformation(logicalMovieIndex());
+      requestAnimationFrame(() => {
+        if (shouldFade) {
+          incomingSlide.classList.remove('is-fade-start');
+          incomingSlide.classList.add('is-fade-in');
+        }
+        setTrackPosition(true);
+      });
+    }
+
+    function goToNextMovie(force = false) {
+      if ((!force && isHovering) || isInteracting || isAnimating || home.classList.contains('is-hidden')) return;
+      animateTo(activeSlide + 1);
+    }
+
+    function goToPreviousMovie() {
+      animateTo(activeSlide - 1);
+      startAutoplay();
+    }
+
+    function goToMovie(index) {
+      animateTo(index + 1);
+      startAutoplay();
+    }
+
+    function stopAutoplay() {
+      clearInterval(autoplayTimer);
+      autoplayTimer = undefined;
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      if (!isHovering && !isInteracting && !home.classList.contains('is-hidden')) {
+        autoplayTimer = setInterval(goToNextMovie, 8000);
+      }
+    }
+
+    carousel.addEventListener('wheel', (event) => {
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (!delta) return;
+      event.preventDefault();
+      stopAutoplay();
+      if (delta > 0) goToNextMovie(true);
+      else goToPreviousMovie();
+      startAutoplay();
+    }, { passive: false });
+
+    carousel.addEventListener('pointerdown', (event) => {
+      if (isAnimating) return;
+      isInteracting = true;
+      stopAutoplay();
+      dragStartX = event.clientX;
+      dragStartOffset = -activeSlide * carousel.clientWidth;
+      didDrag = false;
+      carousel.classList.add('is-dragging');
+      carousel.setPointerCapture(event.pointerId);
+    });
+    carousel.addEventListener('pointermove', (event) => {
+      if (!carousel.classList.contains('is-dragging')) return;
+      if (Math.abs(event.clientX - dragStartX) > 8) didDrag = true;
+      carouselTrack.style.transform = `translate3d(${dragStartOffset + event.clientX - dragStartX}px, 0, 0)`;
+    });
+    function stopDrag(event) {
+      if (!isInteracting) return;
+      carousel.classList.remove('is-dragging');
+      isInteracting = false;
+      const distance = event?.clientX - dragStartX || 0;
+      if (event?.type === 'pointerup' && didDrag) {
+        if (Math.abs(distance) > carousel.clientWidth * .12) animateTo(activeSlide + (distance > 0 ? -1 : 1));
+        else animateTo(activeSlide);
+      } else if (event?.type === 'pointerup') {
+        if (event.clientX < carousel.getBoundingClientRect().left + carousel.clientWidth / 2) goToPreviousMovie();
+        else goToNextMovie(true);
+      } else {
+        setTrackPosition(true);
+      }
+      if (!isHovering) startAutoplay();
+    }
+    carousel.addEventListener('pointerup', stopDrag);
+    carousel.addEventListener('pointercancel', stopDrag);
+    carousel.addEventListener('mouseenter', () => { isHovering = true; stopAutoplay(); });
+    carousel.addEventListener('mouseleave', () => { isHovering = false; if (!isInteracting) startAutoplay(); });
+    window.addEventListener('resize', () => {
+      setTrackPosition(false);
+    });
+    carouselTrack.addEventListener('transitionend', (event) => {
+      if (event.propertyName !== 'transform') return;
+      isAnimating = false;
+      carousel.classList.remove('is-animating');
+      carouselSlides.forEach((slide) => slide.classList.remove('is-fade-start', 'is-fade-in', 'is-fade-out'));
+      normaliseLoopPosition();
+      if (!isHovering && !isInteracting) startAutoplay();
+    });
+    setTrackPosition(false);
+    startAutoplay();
+
+    const questions = {
+      start: {
+        question: '오늘 하루 어땠나요?',
+        options: [
+          { label: '조금 버거웠어요', next: 'needSupport' },
+          { label: '조금 지루했어요', next: 'needChange' }
+        ]
+      },
+      needSupport: {
+        question: '오늘은 누군가에게 기대고 싶은가요?',
+        options: [
+          { label: '네, 따뜻한 위로를 받고 싶어요', next: 'comfortStory' },
+          { label: '아니요, 오로지 혼자인 시간이 필요해요', next: 'aloneMovie' }
+        ]
+      },
+      comfortStory: {
+        question: '오늘은 어떤 이야기가 더 끌리나요?',
+        options: [
+          { label: '다시 힘내서 삶을 살아갈 용기', result: 'kidsReturn' },
+          { label: '현실을 잠시 잊게 해주는 상상', result: 'brigsbyBear' },
+          { label: '말보다 긴 여운이 남는 이야기', result: 'aGhostStory' }
+        ]
+      },
+      aloneMovie: {
+        question: '혼자 있는 시간에 어떤 영화가 좋을까요?',
+        options: [
+          { label: '감정을 천천히 들여다보는 영화', result: 'perks' },
+          { label: '세상을 다르게 바라보는 영화', result: 'arrival' },
+          { label: '삶을 깊게 생각해보는 영화', result: 'mrNobody' }
+        ]
+      },
+      needChange: {
+        question: '오늘은 어떤 변화가 필요할까요?',
+        options: [
+          { label: '상상도 못한 새로운 자극이 필요해요', next: 'newStimulus' },
+          { label: '익숙한 것의 재발견이 필요해요', next: 'rediscovery' }
+        ]
+      },
+      newStimulus: {
+        question: '어떤 충격을 만나고 싶나요?',
+        options: [
+          { label: '한 번도 본 적 없는 세계관', result: 'mrNobody' },
+          { label: '익숙한 현실을 뒤집는 이야기', result: 'beingJohnMalkovich' },
+          { label: '끝나고도 계속 곱씹게 되는 여운', result: 'perfectSense' }
+        ]
+      },
+      rediscovery: {
+        question: '무엇을 다시 발견하고 싶나요?',
+        options: [
+          { label: '평범한 일상의 아름다움', result: '21Days' },
+          { label: '사람과 관계의 새로운 모습', result: 'brigsbyBear' },
+          { label: '내 안에 쌓여있던 감정', result: 'perks' }
+        ]
+      }
+    };
+
+    const movies = {
+      kidsReturn: { title: '키즈 리턴', poster: 'public/posters/키즈리턴.jpeg', message: '다시 삶을 살아갈 용기가 필요할 때 추천하는 영화입니다.' },
+      brigsbyBear: { title: '브릭스비 베어', poster: 'public/posters/브릭스비베어.jpg', message: '현실을 잠시 잊고 새로운 관계를 만나고 싶을 때 추천합니다.' },
+      aGhostStory: { title: '고스트 스토리', poster: 'public/posters/고스트 스토리.webp', message: '말보다 긴 여운이 남는 이야기를 원할 때 추천합니다.' },
+      perks: { title: '월플라워', poster: 'public/posters/월플라워.webp', message: '내 감정을 천천히 들여다보고 싶을 때 추천합니다.' },
+      arrival: { title: '컨택트', poster: 'public/posters/컨택트.webp', message: '세상을 새로운 시선으로 바라보고 싶을 때 추천합니다.' },
+      mrNobody: { title: '미스터 노바디', poster: 'public/posters/미스터 노바디.webp', message: '삶과 선택을 깊게 생각해보고 싶을 때 추천합니다.' },
+      beingJohnMalkovich: { title: '존 말코비치 되기', poster: 'public/posters/존말코비치되기.webp', message: '익숙한 현실을 뒤집는 낯선 충격을 원할 때 추천합니다.' },
+      perfectSense: { title: '퍼펙트 센스', poster: 'public/posters/퍼펙트 센스.jpg', message: '끝난 뒤에도 오래 곱씹을 여운을 원할 때 추천합니다.' },
+      '21Days': { title: '세상의 끝까지 21일', poster: 'public/posters/세상의 끝까지 21일.jpg', message: '평범한 일상의 아름다움을 다시 발견하고 싶을 때 추천합니다.' }
+    };
+
+    const app = document.querySelector('#app');
+    let currentQuestion = 'start';
+    let answers = [];
+
+    function showStart() {
+      window.scrollTo(0, 0);
+      app.classList.add('is-hidden');
+      app.classList.remove('quiz-screen');
+      screeningIntro.classList.add('is-hidden');
+      home.classList.remove('is-hidden');
+      siteHeader.classList.remove('is-hidden');
+      siteHeader.classList.remove('is-screening-intro');
+      startAutoplay();
+    }
+
+    function showScreeningIntro() {
+      window.scrollTo(0, 0);
+      stopAutoplay();
+      home.classList.add('is-hidden');
+      app.classList.add('is-hidden');
+      screeningIntro.classList.remove('is-hidden');
+      siteHeader.classList.remove('is-hidden');
+      siteHeader.classList.add('is-screening-intro');
+    }
+
+    function startQuiz() {
+      window.scrollTo(0, 0);
+      currentQuestion = 'start';
+      answers = [];
+      home.classList.add('is-hidden');
+      screeningIntro.classList.add('is-hidden');
+      siteHeader.classList.add('is-hidden');
+      app.classList.remove('is-hidden');
+      app.classList.add('quiz-screen');
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const current = questions[currentQuestion];
+      app.innerHTML = `
+        <div class="question-content">
+          <h2>${current.question}</h2>
+          <div id="options" class="question-options question-options--${current.options.length}"></div>
+        </div>
+      `;
+
+      const options = document.querySelector('#options');
+      current.options.forEach((option) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'option-button';
+        const optionEmojis = {
+          '조금 버거웠어요': '😩',
+          '조금 지루했어요': '😪',
+          '네, 따뜻한 위로를 받고 싶어요': '🥲',
+          '아니요, 오로지 혼자인 시간이 필요해요': '🤔',
+          '다시 힘내서 삶을 살아갈 용기': '👊',
+          '현실을 잠시 잊게 해주는 상상': '✨',
+          '말보다 긴 여운이 남는 이야기': '🎬',
+          '감정을 천천히 들여다보는 영화': '🪞',
+          '세상을 다르게 바라보는 영화': '🌏',
+          '삶을 깊게 생각해보는 영화': '💭',
+          '상상도 못한 새로운 자극이 필요해요': '⚡',
+          '익숙한 것의 재발견이 필요해요': '🔎',
+          '한 번도 본 적 없는 세계관': '🪐',
+          '익숙한 현실을 뒤집는 이야기': '🔄',
+          '끝나고도 계속 곱씹게 되는 여운': '🌙',
+          '평범한 일상의 아름다움': '🌿',
+          '사람과 관계의 새로운 모습': '🤝',
+          '내 안에 쌓여있던 감정': '🌊'
+        };
+        button.textContent = `${option.label} ${optionEmojis[option.label] || ''}`.trim();
+        button.addEventListener('click', () => selectOption(option));
+        options.appendChild(button);
+      });
+    }
+
+    function selectOption(option) {
+      answers.push(option.label);
+
+      if (option.result) {
+        showResult(option.result);
+        return;
+      }
+
+      currentQuestion = option.next;
+      showQuestion();
+    }
+
+    function showResult(resultId) {
+      const result = movies[resultId];
+      app.classList.remove('quiz-screen');
+      app.innerHTML = `
+        <h2>${result.title}</h2>
+        <div id="poster"><img src="${result.poster}" alt="${result.title} 포스터"></div>
+        <p>${result.message}</p>
+        <button type="button" id="restart-button">다시 시작하기</button>
+      `;
+      document.querySelector('#restart-button').addEventListener('click', showStart);
+    }
+
+    document.querySelectorAll('[data-screening]').forEach((button) => {
+      button.addEventListener('click', showScreeningIntro);
+    });
+    document.querySelector('[data-start-quiz]').addEventListener('click', startQuiz);
+    document.querySelector('[data-screening-back]').addEventListener('click', () => {
+      window.history.back();
+    });
+    document.querySelector('[data-scroll-next]').addEventListener('click', () => {
+      const secondSection = document.querySelector('#screening-intro .screening-section:nth-of-type(2)');
+      const startY = window.scrollY;
+      const targetY = startY + secondSection.getBoundingClientRect().top - siteHeader.offsetHeight;
+      const distance = targetY - startY;
+      const duration = 900;
+      const startedAt = performance.now();
+
+      function scrollStep(now) {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        window.scrollTo(0, startY + distance * eased);
+        if (progress < 1) requestAnimationFrame(scrollStep);
+      }
+
+      requestAnimationFrame(scrollStep);
+    });
+
+    showStart();
+  </script>
+</body>
+</html>
