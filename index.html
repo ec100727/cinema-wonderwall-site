@@ -14,6 +14,13 @@
     @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
     @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; font-display: swap; }
     @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Black.ttf') format('truetype'); font-weight: 900; font-style: normal; font-display: swap; }
+    @font-face {
+    font-family: 'Times';
+    src: url('font/times.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
     @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; font-display: swap; }
     @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-ExtraLight.otf') format('opentype'); font-weight: 200; font-style: normal; font-display: swap; }
@@ -69,24 +76,28 @@
     .screening-section { position: relative; min-height: 100vh; overflow: hidden; }
     .screening-background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .screening-tagline { position: absolute; z-index: 1; top: 40%; left: 50%; display: block; width: min(44vw, 560px); height: auto; transform: translate(-50%, -50%); }
-    .screening-intro-cta { position: absolute; z-index: 2; right: auto; bottom: 60px; left: 50%; transform: translateX(-50%); }
+    .screening-intro-cta { position: absolute; z-index: 2; right: auto; bottom: 120px; left: 50%; transform: translateX(-50%); }
     .screening-scroll-indicator { position: absolute; z-index: 2; bottom: calc(40px + var(--header-height)); left: 50%; padding: 8px; border: 0; background: transparent; color: var(--header); cursor: pointer; font: 600 28px/1 'Poppins', sans-serif; transform: translateX(-50%); animation: intro-scroll-float 2.4s cubic-bezier(.45, 0, .55, 1) infinite; }
     .screening-scroll-indicator:hover { opacity: .6; }
     @keyframes intro-scroll-float { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -8px); } }
-    .screening-description { position: absolute; z-index: 1; top: 47%; left: 50%; width: 1440px; max-width: 86vw; transform: translate(-50%, -50%); color: var(--text); text-align: center; }
-    .screening-description h2 { margin: 0 0 86px; font: 600 40px/1.2 'Pretendard', sans-serif; }
-    .screening-description p { margin: 0; font: 500 28px/1.65 'Pretendard', sans-serif; }
+    .screening-description { position: absolute; z-index: 1; top: 50%; left: 50%; width: 1440px; max-width: 86vw; transform: translate(-50%, -50%); color: var(--text); text-align: center; }
+    .screening-description h2 { margin: 0 0 86px; font: 500 30px/1.2 'Pretendard', sans-serif; }
+    .screening-description p { margin: 0; font: 300 18px/1.65 'Pretendard', sans-serif; }
     .screening-description .intro-english { font-family: 'Poppins', sans-serif; font-weight: 400; }
-    .screening-back { position: fixed; z-index: 11; top: calc(var(--header-height) + 28px); left: 32px; padding: 0; border: 0; background: transparent; color: var(--text); cursor: pointer; font: 400 30px/1 'Poppins', sans-serif; transition: opacity .25s ease; }
+    .quote {
+    font-family: 'Times', serif;
+}
+    .screening-back { position: fixed; z-index: 20; top: calc(var(--header-height) + 28px); left: 32px; padding: 0; border: 0; background: transparent; color: var(--text); cursor: pointer; font: 400 30px/1 'Poppins', sans-serif; transition: opacity .25s ease; }
+    .site-header.is-hidden ~ main + .screening-back { top: 28px; }
     .screening-back:hover { opacity: .6; }
 
     #app.quiz-screen { display: block; width: 100%; min-height: 100vh; margin: 0; padding-top: 360px; background: url('images/screening/backgrounds/screening_bg.png') center / cover no-repeat; color: var(--text); text-align: center; }
     .question-content { animation: question-fade .5s cubic-bezier(.22, .61, .36, 1) both; }
-    .question-content h2 { margin: 0 0 106px; font: 600 60px/1.2 'Pretendard', sans-serif; letter-spacing: -.06em; }
-    .question-options { display: flex; justify-content: center; align-items: center; gap: 68px; }
-    .question-options--3 { gap: 68px; }
-    .option-button { display: flex !important; align-items: center; justify-content: center; width: 480px; min-height: 142px; margin: 0 !important; padding: 22px 38px !important; border: 1px solid rgba(255, 224, 224, .42) !important; border-radius: 999px; background: linear-gradient(115deg, rgba(87, 0, 4, .66), rgba(178, 6, 18, .48) 52%, rgba(48, 0, 2, .7)) !important; box-shadow: inset 0 1px 1px rgba(255, 255, 255, .12), 0 12px 30px rgba(0, 0, 0, .25); color: var(--text); cursor: pointer; font: 500 32px/1.35 'Pretendard', sans-serif !important; letter-spacing: -.055em; backdrop-filter: blur(13px); -webkit-backdrop-filter: blur(13px); transition: background .25s ease, border-color .25s ease, transform .25s ease; }
-    .option-button:hover { background: linear-gradient(115deg, rgba(119, 4, 9, .76), rgba(202, 19, 29, .58) 52%, rgba(72, 2, 6, .78)) !important; border-color: rgba(255, 235, 235, .68) !important; transform: translateY(-3px); }
+    .question-content h2 { margin: 0 0 106px; font: 600 35px/1.2 'Pretendard', sans-serif; letter-spacing: -.06em; }
+    .question-options { display: flex; justify-content: center; align-items: center; gap: 40px; }
+    .question-options--3 { gap: 40px; }
+    .option-button { display: flex !important; align-items: center; justify-content: center; width: 400px; min-height: 95px; margin: 0 !important; padding: 16px 24px !important; border: 1px solid rgba(255, 255, 255, 0.25) !important; border-radius: 999px; background: linear-gradient(115deg, rgba(87, 0, 4, .08), rgba(178, 6, 18, .04) 52%, rgba(48, 0, 2, .08)) !important; box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.06), 0 8px 20px rgba(0, 0, 0, 0.12); color: var(--text); cursor: pointer; font: 300 22px/1.35 'Pretendard', sans-serif !important; letter-spacing: -.055em; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(16px); transition: background .25s ease, border-color .25s ease, transform .25s ease; }
+    .option-button:hover { background: linear-gradient(115deg, rgba(87, 0, 4, 0.08), rgba(178, 6, 18, 0.04) 52%, rgba(48, 0, 2, 0.08)) !important; border-color: rgba(255, 255, 255, 0.03) !important; transform: translateY(-3px); }
     @keyframes question-fade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
     #app { min-height: 100vh; display: flex; align-items: center; justify-content: center; width: min(90%, 600px); margin: auto; text-align: center; }
@@ -94,6 +105,15 @@
     #app button { display: block; margin: 12px auto; padding: 10px 16px; border: 1px solid var(--text); background: transparent; cursor: pointer; }
     #poster { width: 180px; margin: 20px auto; }
     #poster img { display: block; width: 100%; height: auto; }
+    #app.qr-result-screen { position: relative; display: block; width: 100%; max-width: none; min-height: 100vh; margin: 0; overflow: hidden; background: url('images/screening/backgrounds/screening_bg.png') center / cover no-repeat; text-align: left; }
+    .qr-result-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 586px); gap: clamp(60px, 9vw, 175px); align-items: center; width: min(calc(100% - 80px), 1532px); min-height: 100vh; margin: 0 auto; }
+    .qr-result-copy { align-self: center; padding-bottom: 2vh; }
+    .qr-result-copy h2 { margin: 0 0 18px; color: var(--header); font: 700 clamp(76px, 7.3vw, 140px)/.98 'Poppins', sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+    .qr-result-copy p { margin: 0; color: var(--text); font: 500 clamp(20px, 1.67vw, 32px)/1.55 'Pretendard', sans-serif; letter-spacing: -.035em; white-space: nowrap; }
+    .qr-phone { position: relative; align-self: end; width: min(30.625vw, 588px); aspect-ratio: 588 / 895; }
+    .qr-phone-frame { position: relative; z-index: 2; display: block; width: 100%; height: auto; }
+    .qr-code-image { position: absolute; z-index: 1; top: 28.3%; left: 50%; display: block; width: 47%; height: auto; transform: translateX(-50%); }
+    #app .qr-result-restart { position: absolute; z-index: 3; bottom: 28px; left: 50%; margin: 0; padding: 8px 12px; border-color: rgba(255, 255, 255, .45); color: rgba(255, 255, 255, .72); font: 400 14px/1 'Pretendard', sans-serif; transform: translateX(-50%); }
     .is-hidden { display: none !important; }
 
     @media (max-width: 700px) {
@@ -117,6 +137,13 @@
       .question-content h2 { margin-bottom: 52px; font-size: 34px; }
       .question-options, .question-options--3 { flex-wrap: wrap; gap: 16px; padding: 0 20px; }
       .option-button { width: min(100%, 420px); min-height: 78px; font-size: 20px !important; }
+      #app.qr-result-screen { overflow: auto; }
+      .qr-result-layout { grid-template-columns: 1fr; gap: 44px; width: calc(100% - 40px); min-height: 100vh; padding: 100px 0 0; text-align: center; }
+      .qr-result-copy { padding: 0; }
+      .qr-result-copy h2 { margin-bottom: 16px; font-size: clamp(56px, 19vw, 82px); white-space: normal; }
+      .qr-result-copy p { font-size: clamp(16px, 4.6vw, 20px); white-space: normal; }
+      .qr-phone { align-self: end; justify-self: center; width: min(76vw, 420px); }
+      #app .qr-result-restart { position: fixed; bottom: 18px; }
     }
   </style>
 </head>
@@ -147,7 +174,6 @@
       <button type="button" class="booking-link" data-screening>예매하기 <span class="arrow" aria-hidden="true">→</span></button>
     </section>
     <section id="screening-intro" class="is-hidden" aria-label="Screening 소개">
-      <button type="button" class="screening-back" data-screening-back aria-label="이전 페이지로 돌아가기">←</button>
       <section class="screening-section" aria-label="Screening 시작">
         <img class="screening-background" src="images/screening/blind_screening_2.png" alt="영화관 스크린">
         <img class="screening-tagline" src="typography/watch_first_think_later_typography.svg" alt="Watch First Think Later">
@@ -156,14 +182,14 @@
       <section class="screening-section" aria-label="Screening 소개">
         <img class="screening-background" src="images/screening/blind_screening_1.png" alt="영화관 내부">
         <div class="screening-description">
-          <h2>“ 제목 없이 시작되는 한 편의 영화 ”</h2>
-          <p>우리는 영화를 보기 전에 이미 많은 것을 알고 있습니다.<br>제목, 포스터, 줄거리. 때로는 그 정보만으로 영화를 선택하기도 합니다.<br><span class="intro-english">Watch First, Think Later</span> 는 그런 익숙한 방식에서 잠시 벗어나 보는 블라인드 상영입니다.<br>몇 가지 질문에 답하면 지금의 당신에게 가장 잘 어울리는 영화가 추천됩니다.<br>영화의 제목은 상영이 끝난 뒤에 공개됩니다. 그전까지는 어떤 영화인지 알 수 없습니다.<br><br>영화를 먼저 판단하기보다, 먼저 경험해 보세요.<br>질문을 시작하고, 지금의 당신에게 가장 잘 어울리는 영화를 만나보세요.</p>
+<h2><span class="quote">“</span>&nbsp;제목 없이 시작되는 한 편의 영화&nbsp;<span class="quote">”</span></h2>          <p>우리는 영화를 보기 전에 이미 많은 것을 알고 있습니다.<br>제목, 포스터, 줄거리. 때로는 그 정보만으로 영화를 선택하기도 합니다.<br><span class="intro-english">Watch First, Think Later</span> 는 그런 익숙한 방식에서 잠시 벗어나 보는 블라인드 상영입니다.<br>몇 가지 질문에 답하면 지금의 당신에게 가장 잘 어울리는 영화가 추천됩니다.<br>영화의 제목은 상영이 끝난 뒤에 공개됩니다. 그전까지는 어떤 영화인지 알 수 없습니다.<br><br>영화를 먼저 판단하기보다, 먼저 경험해 보세요.<br>질문을 시작하고, 지금의 당신에게 가장 잘 어울리는 영화를 만나보세요.</p>
         </div>
         <button type="button" class="booking-link screening-intro-cta" data-start-quiz>시작하기</button>
       </section>
     </section>
     <section id="app" class="is-hidden"></section>
   </main>
+  <button type="button" class="screening-back is-hidden" data-app-back aria-label="이전 화면으로 돌아가기">←</button>
 
   <script>
     const homeMovies = [
@@ -427,14 +453,84 @@
       '21Days': { title: '세상의 끝까지 21일', poster: 'public/posters/세상의 끝까지 21일.jpg', message: '평범한 일상의 아름다움을 다시 발견하고 싶을 때 추천합니다.' }
     };
 
+    const qrPhoneAsset = 'qrcode/qr_phone.png';
+    const qrResultAssets = {
+      kidsReturn: 'qrcode/kids_return_qr.svg',
+      brigsbyBear: 'qrcode/brigby_bear_qr.svg',
+      aGhostStory: 'qrcode/ghost_story_qr.svg',
+      perks: 'qrcode/perks_qr.svg',
+      arrival: 'qrcode/arrival_qr.svg',
+      mrNobody: 'qrcode/mrnobody_qr.svg',
+      beingJohnMalkovich: 'qrcode/being_john_malkovich_qr.svg',
+      perfectSense: 'qrcode/perfect_sense_qr.svg',
+      '21Days': 'qrcode/21days_qr.svg'
+    };
+
     const app = document.querySelector('#app');
+    const appBackButton = document.querySelector('[data-app-back]');
     let currentQuestion = 'start';
     let answers = [];
+    let currentAnswerIndex = 0;
+    let currentScreen = { type: 'home' };
+    let introScrollToken = 0;
+    const navigationStack = [];
 
-    function showStart() {
+    function copyState(state) {
+      return {
+        ...state,
+        answers: state.answers ? [...state.answers] : undefined
+      };
+    }
+
+    function updateBackButton() {
+      appBackButton.classList.toggle('is-hidden', currentScreen.type === 'home');
+    }
+
+    function moveForward(nextState) {
+      navigationStack.push(copyState(currentScreen));
+      currentScreen = copyState(nextState);
+      renderCurrentScreen();
+    }
+
+    function goBack() {
+      if (!navigationStack.length) return;
+      currentScreen = navigationStack.pop();
+      renderCurrentScreen();
+    }
+
+    function showIntroSection(section, animate = false) {
+      const scrollToken = ++introScrollToken;
+      const targetSection = document.querySelector(`#screening-intro .screening-section:nth-of-type(${section})`);
+      const targetY = section === 1
+        ? 0
+        : window.scrollY + targetSection.getBoundingClientRect().top - siteHeader.offsetHeight;
+
+      if (!animate) {
+        window.scrollTo(0, targetY);
+        return;
+      }
+
+      const startY = window.scrollY;
+      const distance = targetY - startY;
+      const duration = 900;
+      const startedAt = performance.now();
+
+      function scrollStep(now) {
+        if (scrollToken !== introScrollToken) return;
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        window.scrollTo(0, startY + distance * eased);
+        if (progress < 1) requestAnimationFrame(scrollStep);
+      }
+
+      requestAnimationFrame(scrollStep);
+    }
+
+    function renderHome() {
       window.scrollTo(0, 0);
       app.classList.add('is-hidden');
       app.classList.remove('quiz-screen');
+      app.classList.remove('qr-result-screen');
       screeningIntro.classList.add('is-hidden');
       home.classList.remove('is-hidden');
       siteHeader.classList.remove('is-hidden');
@@ -442,26 +538,71 @@
       startAutoplay();
     }
 
-    function showScreeningIntro() {
-      window.scrollTo(0, 0);
+    function renderScreeningIntro(section, animate = false) {
       stopAutoplay();
       home.classList.add('is-hidden');
       app.classList.add('is-hidden');
       screeningIntro.classList.remove('is-hidden');
       siteHeader.classList.remove('is-hidden');
       siteHeader.classList.add('is-screening-intro');
+      requestAnimationFrame(() => showIntroSection(section, animate));
     }
 
-    function startQuiz() {
+    function renderQuestionState(state) {
       window.scrollTo(0, 0);
-      currentQuestion = 'start';
-      answers = [];
+      currentQuestion = state.question;
+      answers = [...state.answers];
+      currentAnswerIndex = state.answerIndex;
       home.classList.add('is-hidden');
       screeningIntro.classList.add('is-hidden');
       siteHeader.classList.add('is-hidden');
       app.classList.remove('is-hidden');
+      app.classList.remove('qr-result-screen');
       app.classList.add('quiz-screen');
       showQuestion();
+    }
+
+    function renderCurrentScreen() {
+      updateBackButton();
+
+      if (currentScreen.type === 'home') {
+        renderHome();
+      } else if (currentScreen.type === 'intro') {
+        renderScreeningIntro(currentScreen.section, currentScreen.animate === true);
+        currentScreen.animate = false;
+      } else if (currentScreen.type === 'question') {
+        renderQuestionState(currentScreen);
+      } else if (currentScreen.type === 'result') {
+        currentQuestion = currentScreen.question;
+        answers = [...currentScreen.answers];
+        currentAnswerIndex = currentScreen.answerIndex;
+        showResult(currentScreen.resultId);
+      }
+    }
+
+    function showStart() {
+      navigationStack.length = 0;
+      currentQuestion = 'start';
+      answers = [];
+      currentAnswerIndex = 0;
+      currentScreen = { type: 'home' };
+      renderCurrentScreen();
+    }
+
+    function showScreeningIntro() {
+      moveForward({ type: 'intro', section: 1 });
+    }
+
+    function startQuiz() {
+      currentQuestion = 'start';
+      answers = [];
+      currentAnswerIndex = 0;
+      moveForward({
+        type: 'question',
+        question: currentQuestion,
+        answers,
+        answerIndex: currentAnswerIndex
+      });
     }
 
     function showQuestion() {
@@ -505,20 +646,56 @@
     }
 
     function selectOption(option) {
+      answers = answers.slice(0, currentAnswerIndex);
       answers.push(option.label);
+      currentScreen.answers = [...answers];
 
       if (option.result) {
-        showResult(option.result);
+        moveForward({
+          type: 'result',
+          resultId: option.result,
+          question: currentQuestion,
+          answers,
+          answerIndex: currentAnswerIndex
+        });
         return;
       }
 
       currentQuestion = option.next;
-      showQuestion();
+      currentAnswerIndex += 1;
+      moveForward({
+        type: 'question',
+        question: currentQuestion,
+        answers,
+        answerIndex: currentAnswerIndex
+      });
     }
 
     function showResult(resultId) {
       const result = movies[resultId];
+      const qrAssets = qrResultAssets[resultId];
       app.classList.remove('quiz-screen');
+
+      if (qrAssets) {
+        app.classList.add('qr-result-screen');
+        app.innerHTML = `
+          <section class="qr-result-layout" aria-label="${result.title} QR 코드">
+            <div class="qr-result-copy" style="margin-left:100px;">
+              <h2 style="font-weight:600; color:#FFFAEE;">Scan Me!</h2>
+              <p> <span style="font-weight:200; color:#FFFAEE;">오늘의 당신을 위한 영화가 준비되었습니다.<br>지금 QR 코드를 스캔해 만나보세요!</p>
+            </div>
+            <div class="qr-phone">
+              <img class="qr-code-image" src="${qrAssets}" alt="${result.title} QR 코드">
+              <img class="qr-phone-frame" src="${qrPhoneAsset}" alt="휴대폰 화면">
+            </div>
+          </section>
+          <button type="button" id="restart-button" class="qr-result-restart">다시 시작하기</button>
+        `;
+        document.querySelector('#restart-button').addEventListener('click', showStart);
+        return;
+      }
+
+      app.classList.remove('qr-result-screen');
       app.innerHTML = `
         <h2>${result.title}</h2>
         <div id="poster"><img src="${result.poster}" alt="${result.title} 포스터"></div>
@@ -532,25 +709,9 @@
       button.addEventListener('click', showScreeningIntro);
     });
     document.querySelector('[data-start-quiz]').addEventListener('click', startQuiz);
-    document.querySelector('[data-screening-back]').addEventListener('click', () => {
-      window.history.back();
-    });
+    appBackButton.addEventListener('click', goBack);
     document.querySelector('[data-scroll-next]').addEventListener('click', () => {
-      const secondSection = document.querySelector('#screening-intro .screening-section:nth-of-type(2)');
-      const startY = window.scrollY;
-      const targetY = startY + secondSection.getBoundingClientRect().top - siteHeader.offsetHeight;
-      const distance = targetY - startY;
-      const duration = 900;
-      const startedAt = performance.now();
-
-      function scrollStep(now) {
-        const progress = Math.min((now - startedAt) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 4);
-        window.scrollTo(0, startY + distance * eased);
-        if (progress < 1) requestAnimationFrame(scrollStep);
-      }
-
-      requestAnimationFrame(scrollStep);
+      moveForward({ type: 'intro', section: 2, animate: true });
     });
 
     showStart();
