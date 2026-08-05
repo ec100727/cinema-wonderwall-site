@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Cinema Wonderwall</title>
+  <style>
+    @font-face {
+      font-family: 'Poppins';
+      src: url('font/poppins/Poppins-SemiBold.ttf') format('truetype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --about-cream: #FFFAEE;
+      --about-muted: #6B6963;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; margin: 0; }
+    body { overflow: hidden; background: #000; color: var(--about-cream); font-family: 'Poppins', sans-serif; }
+
+    .about-page {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 620px;
+      overflow: hidden;
+      background: url('images/about/background.png') center / cover no-repeat;
+    }
+
+    .about-back {
+      position: fixed;
+      z-index: 2;
+      top: 28px;
+      left: 32px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font: 400 30px/1 'Poppins', sans-serif;
+      transition: opacity 280ms cubic-bezier(.22, .61, .36, 1), transform 280ms cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .about-back:hover { opacity: .65; transform: translateX(-3px); }
+    .about-back:focus-visible { outline: 1px solid rgba(255, 255, 255, .75); outline-offset: 5px; }
+
+    .about-menu {
+      position: absolute;
+      top: 50%;
+      left: clamp(72px, 10.4vw, 200px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: clamp(52px, 9.5vh, 103px);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      transform: translateY(-50%);
+    }
+
+    .about-menu-item {
+      color: var(--about-cream);
+      cursor: pointer;
+      font-size: 180px;
+      font-weight: 600;
+      line-height: .82;
+      letter-spacing: -.055em;
+      white-space: nowrap;
+      transition: color 300ms cubic-bezier(.22, .61, .36, 1), opacity 300ms cubic-bezier(.22, .61, .36, 1), transform 300ms cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .about-menu:has(.about-menu-item:hover) .about-menu-item:not(:hover),
+    .about-menu:has(.about-menu-item:focus-visible) .about-menu-item:not(:focus-visible) {
+      color: var(--about-muted);
+      opacity: .92;
+    }
+
+    .about-menu-item:hover,
+    .about-menu-item:focus-visible { color: var(--about-cream); transform: translateX(8px); }
+    .about-menu-item:focus-visible { outline: 1px solid currentColor; outline-offset: 8px; }
+
+    @media (max-width: 1400px) {
+      .about-menu-item { font-size: clamp(96px, 9.4vw, 132px); }
+      .about-menu { gap: clamp(44px, 7.5vh, 76px); }
+    }
+
+    @media (max-width: 700px) {
+      .about-page { min-height: 520px; }
+      .about-back { top: 18px; left: 20px; font-size: 26px; }
+      .about-menu { left: 28px; gap: clamp(38px, 8vh, 64px); }
+      .about-menu-item { font-size: clamp(54px, 16vw, 88px); line-height: .9; }
+    }
+  </style>
+</head>
+<body>
+  <main class="about-page">
+    <button type="button" class="about-back" aria-label="Go back">←</button>
+    <nav aria-label="About sections">
+      <ul class="about-menu">
+        <li class="about-menu-item" tabindex="0">Background</li>
+        <li class="about-menu-item" tabindex="0">Visual System</li>
+        <li class="about-menu-item" tabindex="0">Strategy</li>
+        <li class="about-menu-item" tabindex="0">Contact</li>
+      </ul>
+    </nav>
+  </main>
+  <script>
+    document.querySelector('.about-back').addEventListener('click', () => {
+      history.back();
+    });
+  </script>
+</body>
+</html>
