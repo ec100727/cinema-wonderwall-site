@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Background — Cinema Wonderwall</title>
+  <style>
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Poppins'; src: url('font/poppins/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Pretendard'; src: url('font/Pretendard-1.3.9/public/static/Pretendard-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+
+    :root { --cream: #FFFAEE; --red: #E3212A; --muted: #6B6963; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+    html, body { width: 100%; min-height: 100%; margin: 0; background: #000; }
+    body { color: var(--cream); font-family: 'Pretendard', sans-serif; }
+    body::before { position: fixed; z-index: 0; inset: 0; content: ''; background: url('images/about/background_linear.png') center / cover no-repeat; pointer-events: none; }
+
+    .about-back { position: fixed; z-index: 20; top: 26px; left: 30px; padding: 0; border: 0; background: transparent; color: #fff; cursor: pointer; font: 400 28px/1 'Poppins', sans-serif; transition: opacity .28s ease, transform .28s ease; }
+    .about-back:hover { opacity: .65; transform: translateX(-3px); }
+
+    .side-nav { position: fixed; z-index: 10; top: 8.6vh; left: clamp(92px, 6.75vw, 138px); width: 280px; height: 82.4vh; }
+    .side-nav-list { display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin: 0; padding: 0; list-style: none; }
+    .side-nav-button { padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; font: 600 25px/1 'Poppins', sans-serif; letter-spacing: -.035em; text-align: left; transition: color .38s cubic-bezier(.22, .61, .36, 1); }
+    .side-nav-button.is-active { color: var(--red); }
+    .nav-indicator { position: fixed; z-index: 11; top: 0; left: clamp(38px, 2.75vw, 56px); width: 18px; height: 18px; border-radius: 50%; background: var(--red); pointer-events: none; will-change: transform; transition: transform .12s cubic-bezier(.22, .61, .36, 1); }
+
+    .about-content { position: relative; z-index: 1; }
+    .panel { position: relative; width: 100%; height: 100vh; overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always; }
+    .panel-artwork { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+
+    .panel-brand .panel-inner { padding: 24.2vh 8vw 0 0; }
+    .brand-block { margin-bottom: 13.3vh; }
+    .panel-title { margin: 0 0 18px; font-size: 42px; font-weight: 600; line-height: 1.15; letter-spacing: -.045em; }
+    .brand-name { margin: 0; font-size: 30px; font-weight: 400; line-height: 1.35; letter-spacing: -.035em; }
+    .meaning-title { margin-bottom: 20px; }
+    .meaning-copy { width: min(1180px, 88%); margin: 0 0 30px; font-size: 23px; font-weight: 400; line-height: 1.55; letter-spacing: -.032em; word-break: keep-all; }
+    .accent { color: var(--red); }
+
+    .panel-unseen .panel-inner { padding: 20.4vh 6vw 0 1.7vw; }
+    .unseen-title { margin: 0 0 42px; font-size: 58px; font-weight: 600; line-height: 1.15; letter-spacing: -.055em; }
+    .unseen-intro { width: min(1260px, 95%); margin: 0; font-size: 22px; font-weight: 400; line-height: 1.5; letter-spacing: -.025em; word-break: keep-all; }
+    .issues { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(72px, 8.1vw, 166px); margin-top: 9.3vh; padding-right: 2.8vw; }
+    .issue-number { margin: 0 0 12px; font-size: 56px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+    .issue-heading-row { display: flex; gap: 24px; align-items: center; min-height: 64px; }
+    .issue-bar { flex: 0 0 23px; width: 23px; height: 56px; background: var(--cream); }
+    .issue-heading { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.3; letter-spacing: -.04em; }
+    .issue-copy { margin: 78px 0 0 10px; font-size: 20px; font-weight: 400; line-height: 1.62; letter-spacing: -.03em; word-break: keep-all; }
+
+    .panel-type .panel-inner { padding: 18.2vh 7.5vw 0 2.2vw; }
+    .type-display { position: relative; width: min(1100px, 94%); height: 68vh; margin: 0 auto; }
+    .cinema-note { position: absolute; top: 0; left: 26%; }
+    .wonderwall-note { position: absolute; top: 66%; left: 2%; }
+    .note-group { display: grid; grid-template-columns: 96px 13px auto; column-gap: 10px; align-items: start; }
+    .note-group + .note-group { margin-top: 20px; }
+    .note-label { color: var(--red); font: 400 17px/1.25 'Poppins', sans-serif; text-align: right; }
+    .note-bar { width: 13px; height: 64px; background: var(--red); }
+    .note-copy { margin: 0; font-size: 20px; font-weight: 400; line-height: 1.55; letter-spacing: -.025em; white-space: nowrap; }
+    .note-copy strong { font-weight: 600; }
+    .style-group .note-bar { height: 78px; }
+    .style-group .note-copy { font-size: 17px; line-height: 1.45; }
+    .type-wordmark { position: absolute; top: 31%; left: 0; margin: 0; font: 400 clamp(78px, 7vw, 136px)/1 'Poppins', sans-serif; letter-spacing: -.045em; white-space: nowrap; }
+    .type-line { position: absolute; height: 8px; border-radius: 99px; background: #f00000; }
+    .type-line--cinema { top: 26.6%; left: 0; width: 39%; }
+    .type-line--wonderwall { top: 49%; right: 0; width: 58%; }
+    .type-arrow { position: absolute; border-color: #f00000; pointer-events: none; }
+    .type-arrow--top { top: 3%; left: 6%; width: 16%; height: 21%; border-top: 5px dashed; border-left: 5px dashed; }
+    .type-arrow--top::after { position: absolute; top: -13px; right: -2px; width: 20px; height: 20px; border-top: 5px solid #f00000; border-right: 5px solid #f00000; content: ''; transform: rotate(45deg); }
+    .type-arrow--bottom { top: 50%; right: 9%; width: 15%; height: 10%; border-right: 5px dashed; border-bottom: 5px dashed; }
+    .type-arrow--bottom::after { position: absolute; bottom: -13px; left: -2px; width: 20px; height: 20px; border-bottom: 5px solid #f00000; border-left: 5px solid #f00000; content: ''; transform: rotate(45deg); }
+
+    .visual-system-boundary { height: 100vh; scroll-snap-align: start; }
+
+    @media (max-width: 1400px) {
+      .side-nav { left: 64px; width: 230px; }
+      .side-nav-button { font-size: 28px; }
+      .nav-indicator { left: 28px; width: 23px; height: 23px; }
+      .panel-title { font-size: 34px; }
+      .brand-name { font-size: 25px; }
+      .meaning-copy, .unseen-intro { font-size: 18px; }
+      .unseen-title { font-size: 46px; }
+      .issues { gap: 52px; }
+      .issue-number { font-size: 46px; }
+      .issue-heading { font-size: 19px; }
+      .issue-copy { font-size: 16px; }
+      .note-copy { font-size: 16px; }
+      .type-wordmark { font-size: clamp(70px, 7vw, 100px); }
+    }
+
+    @media (max-width: 800px) {
+      html { scroll-snap-type: y proximity; }
+      .about-back { top: 16px; left: 16px; }
+      .side-nav { top: 24px; left: 58px; width: calc(100% - 76px); height: auto; }
+      .side-nav-list { flex-direction: row; gap: 18px; overflow-x: auto; }
+      .side-nav-button { font-size: 14px; white-space: nowrap; }
+      .nav-indicator { display: none; }
+      .panel { height: auto; min-height: 100vh; overflow: visible; }
+      .panel { height: 100vh; overflow: hidden; }
+      .brand-block { margin-bottom: 80px; }
+      .meaning-copy, .unseen-intro { width: 100%; font-size: 16px; }
+      .unseen-title { font-size: 38px; }
+      .issues { grid-template-columns: 1fr; gap: 70px; margin-top: 80px; padding: 0; }
+      .issue-copy { margin-top: 30px; font-size: 16px; }
+      .type-display { width: 100%; height: 650px; }
+      .type-wordmark { top: 36%; font-size: clamp(45px, 11vw, 74px); }
+      .cinema-note { left: 8%; }
+      .wonderwall-note { top: 65%; left: 0; }
+      .note-group { grid-template-columns: 70px 8px minmax(0, 1fr); }
+      .note-copy { font-size: 13px; white-space: normal; }
+      .note-bar { width: 8px; }
+      .type-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <button type="button" class="about-back" aria-label="이전 페이지로 돌아가기">←</button>
+
+  <aside class="side-nav" aria-label="About 메뉴">
+    <ul class="side-nav-list">
+      <li><button type="button" class="side-nav-button is-active" data-section="background">Background</button></li>
+      <li><button type="button" class="side-nav-button" data-section="visual-system">Visual System</button></li>
+      <li><button type="button" class="side-nav-button" data-section="strategy">Strategy</button></li>
+      <li><button type="button" class="side-nav-button" data-section="contact">Contact</button></li>
+    </ul>
+  </aside>
+  <span class="nav-indicator" aria-hidden="true"></span>
+
+  <main class="about-content">
+    <section class="panel" data-background-panel="1" aria-label="Background Panel 01">
+      <img class="panel-artwork" src="images/about/background_panel_01.svg" alt="">
+    </section>
+
+    <section class="panel" data-background-panel="2" aria-label="Background Panel 02">
+      <img class="panel-artwork" src="images/about/background_panel_02.svg" alt="">
+    </section>
+
+    <section class="panel" data-background-panel="3" aria-label="Background Panel 03">
+      <img class="panel-artwork" src="images/about/background_panel_03.svg" alt="">
+    </section>
+
+    <section class="visual-system-boundary" id="visual-system" aria-label="Visual System 시작"></section>
+  </main>
+
+  <script>
+    const backButton = document.querySelector('.about-back');
+    const indicator = document.querySelector('.nav-indicator');
+    const backgroundButton = document.querySelector('[data-section="background"]');
+    const visualSystemButton = document.querySelector('[data-section="visual-system"]');
+    const visualSystemBoundary = document.querySelector('#visual-system');
+    const navButtons = [...document.querySelectorAll('.side-nav-button')];
+    let ticking = false;
+
+    backButton.addEventListener('click', () => history.back());
+
+    function indicatorCenters() {
+      const indicatorHeight = indicator.offsetHeight;
+      const backgroundRect = backgroundButton.getBoundingClientRect();
+      const visualRect = visualSystemButton.getBoundingClientRect();
+      return {
+        start: backgroundRect.top + backgroundRect.height / 2 - indicatorHeight / 2,
+        end: visualRect.top + visualRect.height / 2 - indicatorHeight / 2
+      };
+    }
+
+    function magneticProgress(value) {
+      const clamped = Math.max(0, Math.min(1, value));
+      if (clamped < .07) return clamped * .32;
+      if (clamped > .93) return 1 - (1 - clamped) * .32;
+      return clamped * clamped * (3 - 2 * clamped);
+    }
+
+    function updateNavigation() {
+      const visualStart = visualSystemBoundary.offsetTop;
+      const inVisualSystem = window.scrollY >= visualStart - 1;
+      const rawProgress = Math.min(window.scrollY / visualStart, inVisualSystem ? 1 : .985);
+      const progress = inVisualSystem ? 1 : magneticProgress(rawProgress);
+      const centers = indicatorCenters();
+      indicator.style.transform = `translateY(${centers.start + (centers.end - centers.start) * progress}px)`;
+      backgroundButton.classList.toggle('is-active', !inVisualSystem);
+      visualSystemButton.classList.toggle('is-active', inVisualSystem);
+      navButtons.forEach((button) => {
+        if (button !== backgroundButton && button !== visualSystemButton) button.classList.remove('is-active');
+      });
+      ticking = false;
+    }
+
+    function requestNavigationUpdate() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateNavigation);
+    }
+
+    backgroundButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    visualSystemButton.addEventListener('click', () => visualSystemBoundary.scrollIntoView({ behavior: 'smooth' }));
+    window.addEventListener('scroll', requestNavigationUpdate, { passive: true });
+    window.addEventListener('resize', requestNavigationUpdate);
+    updateNavigation();
+  </script>
+</body>
+</html>

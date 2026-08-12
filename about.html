@@ -55,7 +55,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: clamp(52px, 9.5vh, 103px);
+      gap: clamp(70px, 12vh, 140px);
       margin: 0;
       padding: 0;
       list-style: none;
@@ -63,12 +63,14 @@
     }
 
     .about-menu-item {
+      display: block;
       color: var(--about-cream);
       cursor: pointer;
-      font-size: 180px;
-      font-weight: 600;
+      font-size: 120px;
+      font-weight: 400;
       line-height: .82;
       letter-spacing: -.055em;
+      text-decoration: none;
       white-space: nowrap;
       transition: color 300ms cubic-bezier(.22, .61, .36, 1), opacity 300ms cubic-bezier(.22, .61, .36, 1), transform 300ms cubic-bezier(.22, .61, .36, 1);
     }
@@ -101,10 +103,10 @@
     <button type="button" class="about-back" aria-label="Go back">←</button>
     <nav aria-label="About sections">
       <ul class="about-menu">
-        <li class="about-menu-item" tabindex="0">Background</li>
-        <li class="about-menu-item" tabindex="0">Visual System</li>
-        <li class="about-menu-item" tabindex="0">Strategy</li>
-        <li class="about-menu-item" tabindex="0">Contact</li>
+        <li><a class="about-menu-item" href="background.html">Background</a></li>
+        <li><span class="about-menu-item" tabindex="0">Visual System</span></li>
+        <li><span class="about-menu-item" tabindex="0">Strategy</span></li>
+        <li><span class="about-menu-item" tabindex="0">Contact</span></li>
       </ul>
     </nav>
   </main>
