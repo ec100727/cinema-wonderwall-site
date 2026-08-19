@@ -128,40 +128,52 @@
   <span class="nav-indicator" aria-hidden="true"></span>
 
   <main class="about-content">
-    <section class="panel" data-background-panel="1" aria-label="Background Panel 01">
+    <section class="panel" id="panel-01" data-panel="1" aria-label="Background Panel 01">
       <img class="panel-artwork" src="images/about/background_panel_01.svg" alt="">
     </section>
 
-    <section class="panel" data-background-panel="2" aria-label="Background Panel 02">
+    <section class="panel" id="panel-02" data-panel="2" aria-label="Background Panel 02">
       <img class="panel-artwork" src="images/about/background_panel_02.svg" alt="">
     </section>
 
-    <section class="panel" data-background-panel="3" aria-label="Background Panel 03">
+    <section class="panel" id="panel-03" data-panel="3" aria-label="Background Panel 03">
       <img class="panel-artwork" src="images/about/background_panel_03.svg" alt="">
     </section>
 
-    <section class="visual-system-boundary" id="visual-system" aria-label="Visual System 시작"></section>
+    <section class="panel" id="panel-04" data-panel="4" aria-label="Background Panel 04">
+      <img class="panel-artwork" src="images/about/background_panel_04.svg" alt="">
+    </section>
+
+    <section class="panel" id="panel-05" data-panel="5" aria-label="Background Panel 05">
+      <img class="panel-artwork" src="images/about/backgorund_panel_05.svg" alt="">
+    </section>
+
+    <section class="panel" id="panel-06" data-panel="6" aria-label="Background Panel 06">
+      <img class="panel-artwork" src="images/about/background_panel_06.svg" alt="">
+    </section>
   </main>
 
   <script>
     const backButton = document.querySelector('.about-back');
     const indicator = document.querySelector('.nav-indicator');
-    const backgroundButton = document.querySelector('[data-section="background"]');
-    const visualSystemButton = document.querySelector('[data-section="visual-system"]');
-    const visualSystemBoundary = document.querySelector('#visual-system');
     const navButtons = [...document.querySelectorAll('.side-nav-button')];
+    const panels = [...document.querySelectorAll('[data-panel]')];
+    const sectionStarts = {
+      background: document.querySelector('#panel-01'),
+      'visual-system': document.querySelector('#panel-04'),
+      strategy: document.querySelector('#panel-05'),
+      contact: document.querySelector('#panel-06')
+    };
     let ticking = false;
 
     backButton.addEventListener('click', () => history.back());
 
     function indicatorCenters() {
       const indicatorHeight = indicator.offsetHeight;
-      const backgroundRect = backgroundButton.getBoundingClientRect();
-      const visualRect = visualSystemButton.getBoundingClientRect();
-      return {
-        start: backgroundRect.top + backgroundRect.height / 2 - indicatorHeight / 2,
-        end: visualRect.top + visualRect.height / 2 - indicatorHeight / 2
-      };
+      return navButtons.map((button) => {
+        const rect = button.getBoundingClientRect();
+        return rect.top + rect.height / 2 - indicatorHeight / 2;
+      });
     }
 
     function magneticProgress(value) {
@@ -172,17 +184,18 @@
     }
 
     function updateNavigation() {
-      const visualStart = visualSystemBoundary.offsetTop;
-      const inVisualSystem = window.scrollY >= visualStart - 1;
-      const rawProgress = Math.min(window.scrollY / visualStart, inVisualSystem ? 1 : .985);
-      const progress = inVisualSystem ? 1 : magneticProgress(rawProgress);
+      const panelProgress = Math.max(0, Math.min(5, window.scrollY / window.innerHeight));
+      const activeIndex = panelProgress < 3 ? 0 : Math.min(3, Math.floor(panelProgress) - 2);
+      let navProgress;
+      if (panelProgress < 3) navProgress = panelProgress / 3;
+      else navProgress = Math.min(3, panelProgress - 2);
+      const lowerIndex = Math.min(3, Math.floor(navProgress));
+      const upperIndex = Math.min(3, lowerIndex + 1);
+      const localProgress = magneticProgress(navProgress - lowerIndex);
       const centers = indicatorCenters();
-      indicator.style.transform = `translateY(${centers.start + (centers.end - centers.start) * progress}px)`;
-      backgroundButton.classList.toggle('is-active', !inVisualSystem);
-      visualSystemButton.classList.toggle('is-active', inVisualSystem);
-      navButtons.forEach((button) => {
-        if (button !== backgroundButton && button !== visualSystemButton) button.classList.remove('is-active');
-      });
+      const indicatorY = centers[lowerIndex] + (centers[upperIndex] - centers[lowerIndex]) * localProgress;
+      indicator.style.transform = `translateY(${indicatorY}px)`;
+      navButtons.forEach((button, index) => button.classList.toggle('is-active', index === activeIndex));
       ticking = false;
     }
 
@@ -192,8 +205,9 @@
       requestAnimationFrame(updateNavigation);
     }
 
-    backgroundButton.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    visualSystemButton.addEventListener('click', () => visualSystemBoundary.scrollIntoView({ behavior: 'smooth' }));
+    navButtons.forEach((button) => {
+      button.addEventListener('click', () => sectionStarts[button.dataset.section].scrollIntoView({ behavior: 'smooth' }));
+    });
     window.addEventListener('scroll', requestNavigationUpdate, { passive: true });
     window.addEventListener('resize', requestNavigationUpdate);
     updateNavigation();
