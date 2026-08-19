@@ -87,6 +87,11 @@
     .quote {
     font-family: 'Times', serif;
 }
+    /* Screening typography override: replace white text with Cinema Wonderwall cream */
+    /* Only affects typography (color property); does not change backgrounds, borders, or images */
+    #screening-intro, #screening-intro * , #app.quiz-screen, #app.quiz-screen * , #app.qr-result-screen, #app.qr-result-screen * {
+      color: #FFFAEE !important;
+    }
     .screening-back { position: fixed; z-index: 20; top: calc(var(--header-height) + 28px); left: 32px; padding: 0; border: 0; background: transparent; color: var(--text); cursor: pointer; font: 400 30px/1 'Poppins', sans-serif; transition: opacity .25s ease; }
     .site-header.is-hidden ~ main + .screening-back { top: 28px; }
     .screening-back:hover { opacity: .6; }
@@ -113,7 +118,7 @@
     .qr-phone { position: relative; align-self: end; width: min(30.625vw, 588px); aspect-ratio: 588 / 895; }
     .qr-phone-frame { position: relative; z-index: 2; display: block; width: 100%; height: auto; }
     .qr-code-image { position: absolute; z-index: 1; top: 28.3%; left: 50%; display: block; width: 47%; height: auto; transform: translateX(-50%); }
-    #app .qr-result-restart { position: absolute; z-index: 3; bottom: 28px; left: 50%; margin: 0; padding: 8px 12px; border-color: rgba(255, 255, 255, .45); color: rgba(255, 255, 255, .72); font: 400 14px/1 'Pretendard', sans-serif; transform: translateX(-50%); }
+    #app .qr-result-restart { position: absolute; z-index: 3; bottom: 28px; left: 50%; margin: 0; padding: 8px 12px; border-color: rgba(255, 255, 255, .45); color: #FFFAEE !important; font: 400 14px/1 'Pretendard', sans-serif; transform: translateX(-50%); }
     .is-hidden { display: none !important; }
 
     @media (max-width: 700px) {

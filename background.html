@@ -25,7 +25,7 @@
     .side-nav-list { display: flex; flex-direction: column; justify-content: space-between; height: 100%; margin: 0; padding: 0; list-style: none; }
     .side-nav-button { padding: 0; border: 0; background: none; color: var(--muted); cursor: pointer; font: 600 25px/1 'Poppins', sans-serif; letter-spacing: -.035em; text-align: left; transition: color .38s cubic-bezier(.22, .61, .36, 1); }
     .side-nav-button.is-active { color: var(--red); }
-    .nav-indicator { position: fixed; z-index: 11; top: 0; left: clamp(38px, 2.75vw, 56px); width: 18px; height: 18px; border-radius: 50%; background: var(--red); pointer-events: none; will-change: transform; transition: transform .12s cubic-bezier(.22, .61, .36, 1); }
+    .nav-indicator { position: fixed; z-index: 11; top: 0; left: clamp(38px, 2.75vw, 56px); width: 18px; height: 18px; border-radius: 50%; background: var(--red); pointer-events: none; will-change: transform; transition: transform .42s cubic-bezier(.22, .61, .36, 1); }
 
     .about-content { position: relative; z-index: 1; }
     .panel { position: relative; width: 100%; height: 100vh; overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always; }
@@ -164,11 +164,11 @@
       strategy: document.querySelector('#panel-05'),
       contact: document.querySelector('#panel-06')
     };
-    let ticking = false;
+    let activePanelIndex = 0;
 
     backButton.addEventListener('click', () => history.back());
 
-    function indicatorCenters() {
+    function navCenters() {
       const indicatorHeight = indicator.offsetHeight;
       return navButtons.map((button) => {
         const rect = button.getBoundingClientRect();
@@ -176,41 +176,58 @@
       });
     }
 
-    function magneticProgress(value) {
-      const clamped = Math.max(0, Math.min(1, value));
-      if (clamped < .07) return clamped * .32;
-      if (clamped > .93) return 1 - (1 - clamped) * .32;
-      return clamped * clamped * (3 - 2 * clamped);
+    function fixedIndicatorPositions() {
+      const centers = navCenters();
+      const backgroundY = centers[0];
+      const visualSystemY = centers[1];
+      const distance = visualSystemY - backgroundY;
+
+      return [
+        backgroundY,
+        backgroundY + distance * (1/3),
+        backgroundY + distance * (2/3),
+        visualSystemY,
+        centers[2],
+        centers[3]
+      ];
     }
 
-    function updateNavigation() {
-      const panelProgress = Math.max(0, Math.min(5, window.scrollY / window.innerHeight));
-      const activeIndex = panelProgress < 3 ? 0 : Math.min(3, Math.floor(panelProgress) - 2);
-      let navProgress;
-      if (panelProgress < 3) navProgress = panelProgress / 3;
-      else navProgress = Math.min(3, panelProgress - 2);
-      const lowerIndex = Math.min(3, Math.floor(navProgress));
-      const upperIndex = Math.min(3, lowerIndex + 1);
-      const localProgress = magneticProgress(navProgress - lowerIndex);
-      const centers = indicatorCenters();
-      const indicatorY = centers[lowerIndex] + (centers[upperIndex] - centers[lowerIndex]) * localProgress;
-      indicator.style.transform = `translateY(${indicatorY}px)`;
-      navButtons.forEach((button, index) => button.classList.toggle('is-active', index === activeIndex));
-      ticking = false;
+    function renderNavigation() {
+      const positions = fixedIndicatorPositions();
+      indicator.style.transform = `translateY(${positions[activePanelIndex]}px)`;
+
+      // Background remains active for Panels 01–03. Visual System activates at 04.
+      const activeNavIndex = activePanelIndex < 3 ? 0 : activePanelIndex - 2;
+      navButtons.forEach((button, index) => {
+        button.classList.toggle('is-active', index === activeNavIndex);
+      });
     }
 
-    function requestNavigationUpdate() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(updateNavigation);
-    }
+    const visibility = new Map(panels.map((panel) => [panel, 0]));
+    const panelObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => visibility.set(entry.target, entry.intersectionRatio));
+
+      let nextPanelIndex = activePanelIndex;
+      let largestVisibleArea = 0;
+      visibility.forEach((ratio, panel) => {
+        if (ratio > largestVisibleArea) {
+          largestVisibleArea = ratio;
+          nextPanelIndex = panels.indexOf(panel);
+        }
+      });
+
+      if (nextPanelIndex === activePanelIndex) return;
+      activePanelIndex = nextPanelIndex;
+      renderNavigation();
+    }, { threshold: [0, .5, 1] });
+
+    panels.forEach((panel) => panelObserver.observe(panel));
 
     navButtons.forEach((button) => {
       button.addEventListener('click', () => sectionStarts[button.dataset.section].scrollIntoView({ behavior: 'smooth' }));
     });
-    window.addEventListener('scroll', requestNavigationUpdate, { passive: true });
-    window.addEventListener('resize', requestNavigationUpdate);
-    updateNavigation();
+    window.addEventListener('resize', renderNavigation);
+    renderNavigation();
   </script>
 </body>
 </html>
